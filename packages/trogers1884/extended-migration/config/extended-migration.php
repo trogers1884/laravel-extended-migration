@@ -6,57 +6,72 @@ return [
     | Schema Configuration
     |--------------------------------------------------------------------------
     |
-    | Define your PostgreSQL schemas and their respective migration paths.
-    | The 'default' schema is required and maps to Laravel's default migrations.
+    | Configure the default settings for schema management.
     |
     */
+
     'schemas' => [
-        'default' => [
-            'path' => database_path('migrations'),
-            'dependencies' => [],
+        /*
+        |--------------------------------------------------------------------------
+        | Default Schema
+        |--------------------------------------------------------------------------
+        |
+        | The default schema to use when none is specified.
+        |
+        */
+        'default' => 'public',
+
+        /*
+        |--------------------------------------------------------------------------
+        | Schema Paths
+        |--------------------------------------------------------------------------
+        |
+        | Define the base paths for each schema's migrations.
+        | Example:
+        |
+        | 'paths' => [
+        |     'public' => database_path('migrations/public'),
+        |     'tenant' => database_path('migrations/tenant'),
+        | ],
+        |
+        */
+        'paths' => [
+            'public' => database_path('migrations'),
         ],
-        // Add additional schemas as needed:
-        // 'analytics' => [
-        //     'path' => database_path('migrations/analytics'),
-        //     'dependencies' => ['default'],
-        // ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Schema Dependencies
+        |--------------------------------------------------------------------------
+        |
+        | Define dependencies between schemas. Migrations in dependent schemas
+        | will only run after their dependencies are satisfied.
+        |
+        | Example:
+        |
+        | 'dependencies' => [
+        |     'tenant' => ['public'],
+        |     'reporting' => ['public', 'tenant'],
+        | ],
+        |
+        */
+        'dependencies' => [],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Transaction Mode
+    | Transaction Settings
     |--------------------------------------------------------------------------
     |
-    | Configure how transactions are handled during migrations.
-    | Options: 'per_schema', 'global', 'none'
+    | Configure how transactions are handled across schemas.
     |
     */
-    'transaction_mode' => 'per_schema',
+    'transactions' => [
+        // Whether to wrap cross-schema migrations in a transaction
+        'enabled' => true,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Migration Table
-    |--------------------------------------------------------------------------
-    |
-    | Configure the migration table name for each schema.
-    | {schema} will be replaced with the actual schema name.
-    |
-    */
-    'migration_table' => '{schema}_migrations',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Batch Processing
-    |--------------------------------------------------------------------------
-    |
-    | Configure how migration batches are processed.
-    |
-    */
-    'batch_processing' => [
-        // Maximum number of migrations to run in parallel (when possible)
-        'max_parallel' => 1,
-
-        // Whether to stop all migrations if one fails
-        'stop_on_failure' => true,
+        // Maximum number of savepoints to create
+        'max_savepoints' => 5,
     ],
 ];
+

@@ -1,17 +1,17 @@
 {
-    "name": "trogers1884/laravel-extended-migration",
-    "description": "Laravel package for managing multiple PostgreSQL schema migrations",
+    "name": "trogers1884/extended-migration",
+    "description": "Extended migration support for Laravel with multi-schema PostgreSQL support",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Tom Rogers",
-            "email": "your.email@example.com"
+            "name": "trogers1884"
         }
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.0"
+        "illuminate/support": "^11.0",
+        "illuminate/database": "^11.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
@@ -31,16 +31,12 @@
         "laravel": {
             "providers": [
                 "Trogers1884\\ExtendedMigration\\ExtendedMigrationServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "SchemaManager": "Trogers1884\\ExtendedMigration\\Facades\\SchemaManager"
+            }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-    },
-    "config": {
-        "sort-packages": true
-    }
+    "prefer-stable": true
 }
